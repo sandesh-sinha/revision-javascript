@@ -10,17 +10,16 @@ export class App extends Component {
     ],
     type : 0
   }
-  switchNameHandler = () => {
+  switchNameHandler = (newName) => {
     this.setState({
       persons : [
-        {name : 'Maximilian', age: 28},
+        {name : newName, age: 28},
         {name : 'Manu', age : 29},
         {name : 'Stephanie', age : 28}
       ],
       type : (this.state.type+1)%2,
     })
   }
-
   //  In functional component using hooks replaces
   // the current state with the new state not merge them as in setState in class component
   // Create  multiple states and hooks for different state this.props.
@@ -29,10 +28,17 @@ export class App extends Component {
     return (
       <div className='App'>
         <h1>React App</h1>
-        <button onClick={this.switchNameHandler}>Switch Name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age}/>
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}> Children data </Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        <button onClick={this.switchNameHandler.bind(this, 'Maximillian')}>Switch Name</button>
+        <Person 
+          name={this.state.persons[0].name} 
+          age={this.state.persons[0].age}/>
+        <Person 
+          name={this.state.persons[1].name} 
+          age={this.state.persons[1].age}
+          click={() => this.switchNameHandler('Max!!!!!!')}> Children data </Person>
+        <Person 
+          name={this.state.persons[2].name} 
+          age={this.state.persons[2].age}/>
       </div>
     )
   }
