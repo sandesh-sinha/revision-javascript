@@ -1,39 +1,48 @@
 import React, { Component } from 'react'
 import './App.css'
-import Person from './Person/Person'
+import Person from './Person/Person';
+import {uuid} from 'uuidv4';
+
 export class App extends Component {
   state = {
     persons : [
-      {name : 'Max', age: 28},
-      {name : 'Manu', age : 29},
-      {name : 'Stephanie', age : 26}
+      {id : uuid(),name : 'Max', age: 28},
+      {id :uuid() , name : 'Manu', age : 29},
+      {id :uuid(), name: 'Stephanie', age : 26}
     ],
-    type : 0
-  }
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons : [
-        {name : newName, age: 28},
-        {name : 'Manu', age : 29},
-        {name : 'Stephanie', age : 28}
-      ],
-    })
+    type : 0,
+    showPerson : false
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons : [
-        {name : 'Max', age: 28},
-        {name : event.target.value, age : 29},
-        {name : 'Stephanie', age : 28}
-      ],
-    })
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => p.id===id);
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+    this.setState({persons: persons});
   };
+
+  togglePersonsHandler = () => {
+    const show = this.state.showPerson;
+     this.setState({
+       showPerson: !show,
+     })
+  }
+
+  deletePersonHandler = (personIndex) =>{
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
 
   //  In functional component using hooks replaces
   // the current state with the new state not merge them as in setState in class component
   // Create  multiple states and hooks for different state this.props.
   // this.props in class component and props in functional component
+  
   render() {
     const style = {
       backgroundColor : 'white',
@@ -42,23 +51,28 @@ export class App extends Component {
       padding : '8px',
       cursor : 'pointer'
     }
+    let persons = null;
+    if(this.state.showPerson){
+      persons = (
+        <div>
+          {this.state.persons.map( (person,index) => {
+            return (
+            <Person 
+              name={person.name} 
+              age={person.age}
+              click={ () => this.deletePersonHandler(index)}
+              key={person.id}
+              changed={(event) => this.nameChangedHandler(event, person.id)}
+              />)
+          })}
+        </div>
+      );
+    }
     return (
       <div className='App'>
         <h1>React App</h1>
-        <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximillian')}>Switch Name</button>
-        <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age}
-          />
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          click={() => this.switchNameHandler('Max!!!!!!')}
-          changed={this.nameChangedHandler}> Children data </Person>
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age}
-          />
+        <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
+        { persons}
       </div>
     )
   }
