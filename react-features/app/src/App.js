@@ -2,8 +2,22 @@ import React, { Component } from 'react'
 import './App.css'
 import Person from './Person/Person';
 import {uuid} from 'uuidv4';
-import Radium , {StyleRoot} from 'radium';
-export class App extends Component {
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+  background-color : ${props=> props.alt ? 'red'  : 'green'};
+  color : white;
+  font : inherit;
+  border : 1px solid blue;
+  padding : 8px;
+  cursor : pointer;
+  &:hover {
+    background-color : ${props=> props.alt ? 'salmon'  : 'lightgreen'};;
+    color : black;
+  }
+`;
+
+class App extends Component {
   state = {
     persons : [
       {id : uuid(),name : 'Max', age: 28},
@@ -44,18 +58,6 @@ export class App extends Component {
   // this.props in class component and props in functional component
   
   render() {
-    const style = {
-      backgroundColor : 'green',
-      color : 'white',
-      font : 'inherit',
-      border : '1px solid blue',
-      padding : '8px',
-      cursor : 'pointer',
-      ':hover' : {
-        backgroundColor : 'lightGreen',
-        color : 'black'
-      }
-    }
     let persons = null;
     if(this.state.showPerson){
       persons = (
@@ -72,11 +74,6 @@ export class App extends Component {
           })}
         </div>
       );
-      style.backgroundColor  = 'red';  //Everything is javascript 
-      style[':hover']  = {
-        backgroundColor : 'orange',
-        color : 'black'
-      }
     }
     const classes = [];
     if(this.state.persons.length <=2){
@@ -85,22 +82,18 @@ export class App extends Component {
     if(this.state.persons.length <=1){
       classes.push('bold');
     }
-
-
     return (
-      <StyleRoot>
         <div className='App'>
           <h1>React App</h1>
           <h3 className={classes.join(' ')}> Check this out </h3>
-          <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
+          <StyledButton alt={this.state.showPerson} onClick={this.togglePersonsHandler}>Diplay</StyledButton>
           { persons}
         </div>
-      </StyleRoot>
     )
   }
 }
 
-export default Radium(App);
+export default App;
 
 // Radium for :hover like pseudo selectors and media query 
 
