@@ -1,8 +1,5 @@
 .App {
-    align-items: center;
-    margin-top : 20;
-    text-align : 'center';
-    font-size: 15;
+    text-align: center;
 }
 
 .red {
@@ -13,7 +10,7 @@
     font-weight: 100;
 }
 
-.Button{
+.App button{
     background-color : green;
     color : white;
     font : inherit;
@@ -22,7 +19,14 @@
     cursor : pointer;
 }
 
-.Button:hover {
+.App button:hover {
     background-color : 'lightgreen';
     color : black;
+}
+
+.App button.red {
+    background-color: red;
+}
+.App button.red:hover {
+    background-color : salmon;
 }

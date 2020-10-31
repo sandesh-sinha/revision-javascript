@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import './App.css'
+import classes from  './App.css'
 import Person from './Person/Person';
 import {uuid} from 'uuidv4';
-
+// import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 class App extends Component {
   state = {
     persons : [
@@ -45,35 +45,37 @@ class App extends Component {
   
   render() {
     let persons = null;
+    let btnClass = "";
     if(this.state.showPerson){
       persons = (
         <div>
           {this.state.persons.map( (person,index) => {
             return (
-            <Person 
-              name={person.name} 
-              age={person.age}
-              click={ () => this.deletePersonHandler(index)}
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)}
-              />)
+                <Person 
+                name={person.name} 
+                age={person.age}
+                click={ () => this.deletePersonHandler(index)}
+                changed={(event) => this.nameChangedHandler(event, person.id)}
+                />
+              )
           })}
         </div>
       );
+      btnClass = classes.red;
     }
-    const classes = [];
+    const assignedclasses = [];
     if(this.state.persons.length <=2){
-      classes.push('red');
+      assignedclasses.push(classes.red);
     }
     if(this.state.persons.length <=1){
-      classes.push('bold');
+      assignedclasses.push(classes.bold);
     }
     return (
-        <div className='App'>
+        <div className={classes.App}>
           <h1>React App</h1>
-          <h3 className={classes.join(' ')}> Check this out </h3>
-          <button className='button' onClick={this.togglePersonsHandler}>Diplay</button>
-          { persons}
+          <h3 className={assignedclasses.join(' ')}> Check this out </h3>
+          <button className={btnClass} onClick={this.togglePersonsHandler}>Diplay</button>
+          {persons}
         </div>
     )
   }
