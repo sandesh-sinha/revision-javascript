@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Person from './Person/Person';
 import {uuid} from 'uuidv4';
-
+import Radium , {StyleRoot} from 'radium';
 export class App extends Component {
   state = {
     persons : [
@@ -45,11 +45,16 @@ export class App extends Component {
   
   render() {
     const style = {
-      backgroundColor : 'white',
+      backgroundColor : 'green',
+      color : 'white',
       font : 'inherit',
       border : '1px solid blue',
       padding : '8px',
-      cursor : 'pointer'
+      cursor : 'pointer',
+      ':hover' : {
+        backgroundColor : 'lightGreen',
+        color : 'black'
+      }
     }
     let persons = null;
     if(this.state.showPerson){
@@ -67,15 +72,35 @@ export class App extends Component {
           })}
         </div>
       );
+      style.backgroundColor  = 'red';  //Everything is javascript 
+      style[':hover']  = {
+        backgroundColor : 'orange',
+        color : 'black'
+      }
     }
+    const classes = [];
+    if(this.state.persons.length <=2){
+      classes.push('red');
+    }
+    if(this.state.persons.length <=1){
+      classes.push('bold');
+    }
+
+
     return (
-      <div className='App'>
-        <h1>React App</h1>
-        <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
-        { persons}
-      </div>
+      <StyleRoot>
+        <div className='App'>
+          <h1>React App</h1>
+          <h3 className={classes.join(' ')}> Check this out </h3>
+          <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
+          { persons}
+        </div>
+      </StyleRoot>
     )
   }
 }
 
-export default App
+export default Radium(App);
+
+// Radium for :hover like pseudo selectors and media query 
+
