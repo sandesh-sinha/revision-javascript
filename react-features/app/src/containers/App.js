@@ -5,6 +5,10 @@ import {uuid} from 'uuidv4';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    console.log('[App.js] constructor');
+  }
   state = {
     persons : [
       {id : uuid(),name : 'Max', age: 28},
@@ -13,6 +17,11 @@ class App extends Component {
     ],
     type : 0,
     showPerson : false
+  }
+
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
   }
 
   nameChangedHandler = (event, id) => {
@@ -43,8 +52,12 @@ class App extends Component {
   // the current state with the new state not merge them as in setState in class component
   // Create  multiple states and hooks for different state this.props.
   // this.props in class component and props in functional component
-  
+  componentDidMount(){
+    console.log('[App.js] ComponentDidMount');
+  }
+
   render() {
+    console.log('[App.js] render')
     let persons = null;
     if(this.state.showPerson){
       persons = (
@@ -58,6 +71,7 @@ class App extends Component {
     return (
         <div className={classes.App}>
           <Cockpit 
+            title={this.props.apptitle}
             persons={this.state.persons} 
             showPerson={this.state.showPerson}
             togglePersonsHandler={this.togglePersonsHandler}

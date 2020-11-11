@@ -4,6 +4,7 @@ import classes from './Person.css';
 // StyledDiv is a component because styled.div return a componenet;
 
 function Person(props) {
+    console.log('[Person.js] rendering', props);
     return (
         // <div className='Person' style={style}>
         <div className={classes.Person} >

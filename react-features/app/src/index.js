@@ -6,7 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App
+      apptitle='Product Manager'
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );
